@@ -1,117 +1,63 @@
-import { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Link } from "expo-router";
 
-// ⚡ Your Firebase config — replace with your actual values later
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-
-// Initialize Firebase (only once)
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-export default function Index() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-
-      // Check if user already has a room
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (userDoc.exists() && userDoc.data().roomId) {
-        router.replace("/(main)/dashboard");
-      } else {
-        router.replace("/(room)/room-choice");
-      }
-
-      setLoading(false);
-    });
-
-    return unsubscribe;
-  }, []);
-
-  if (loading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#d28eff" />
-      </View>
-    );
-  }
-
-  // If not logged in → show HomePage
+export default function Home() {
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>ETERNA</Text>
       <Text style={styles.tagline}>where love leaves footprints</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.push("/(auth)/sign-in")}
-      >
-        <Text style={styles.buttonText}>Sign In</Text>
-      </TouchableOpacity>
+      <View style={styles.buttons}>
+        <Link href="/auth/signIn" asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Sign In</Text>
+          </TouchableOpacity>
+        </Link>
 
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#e3c6ff" }]}
-        onPress={() => router.push("/(auth)/sign-up")}
-      >
-        <Text style={[styles.buttonText, { color: "#4a155d" }]}>Sign Up</Text>
-      </TouchableOpacity>
+        <Link href="/auth/signUp" asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Sign Up</Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f9f0ff",
-  },
   container: {
     flex: 1,
-    justifyContent: "center",
+    backgroundColor: "#1E1B3A", // deep navy
     alignItems: "center",
-    backgroundColor: "#201234",
-    paddingHorizontal: 30,
+    justifyContent: "center",
+    padding: 24,
   },
   logo: {
-    fontSize: 40,
-    color: "#fff",
+    color: "#FFFFFF",
+    fontSize: 42,
     fontWeight: "bold",
-    marginBottom: 10,
+    letterSpacing: 3,
+    marginBottom: 8,
   },
   tagline: {
+    color: "#CFC7F8",
     fontSize: 14,
-    color: "#cbbbe5",
-    marginBottom: 50,
+    marginBottom: 60,
+    letterSpacing: 1,
+  },
+  buttons: {
+    width: "100%",
+    gap: 16,
   },
   button: {
-    width: "100%",
-    paddingVertical: 15,
+    backgroundColor: "#F4C3F9", // soft pink
     borderRadius: 30,
-    backgroundColor: "#a55eea",
+    paddingVertical: 14,
     alignItems: "center",
-    marginTop: 15,
   },
   buttonText: {
-    color: "#fff",
+    color: "#1E1B3A",
+    fontSize: 18,
     fontWeight: "600",
-    fontSize: 16,
   },
 });
