@@ -1,121 +1,88 @@
 
+# Eternal 💞
 
-🌌 Eterna
+Strengthen your bond, one step at a time.
 
-Eterna is a cross-platform mobile app built with React Native (Expo), Firebase, and Cloudinary. It provides a space for users to create and share “pebbles” — pieces of text, images, or audio — that unlock at a future date.
+Eternal is a React Native (Expo) app that helps couples grow closer through **guided journeys** of tasks and journals. Two users share a private room, complete levels together, and reflect on each other’s answers — making relationships stronger, more mindful, and fun.
 
 
+## ✨ What the App Does
 
-✨ Features
-
-* Authentication – Secure login and signup using Firebase
-* Rooms – Create or join rooms via a unique ID
-* Dashboard – Overview of user activity and shared content
-* Journey – Track milestones, levels, and progress
-* Pebbles – Create content (text, image, audio) with scheduled unlock dates
-
-  * Media stored in Cloudinary
-  * Metadata in Firestore
-* Sticky Navbar – Persistent navigation across main sections
+* **Couple Rooms**: Each pair shares a private space where all progress is stored.
+* **Guided Journey**: Unlock and complete levels with tasks & journal prompts.
+* **Media Entries**: Upload text, images, or audio responses (stored via Cloudinary).
+* **Partner Reflection**: After submitting your entry, instantly view your partner’s.
+* **Sync in Real-Time**: Powered by Firebase, both users always see the same progress.
 
 
 
-🛠 Tech Stack
+## 🏗️ Currently Building
 
-* React Native (Expo Router) – for building the mobile UI
-* Firebase – handles auth and database (Firestore)
-* Cloudinary – media storage for audio and images
-* Expo APIs – for media picker, date picker, and device integration
+We’re actively working on these pages:
 
-
-📂 Project Structure
-
-
-Eterna/
-├── app/               
-│   ├── (auth)/            Login and signup
-│   ├── (main)/            Dashboard, journey, pebbles
-│   ├── (room)/            Room creation and join flow
-│   ├── index.js           Root navigation
-├── assets/               Fonts, images, media
-├── components/           Reusable UI components
-├── constants/            Global constants
-├── hooks/                Custom React hooks
-├── scripts/              Utility functions
-├── firebase.js           Firebase config
-├── App.js                Main app entry
-├── package.json          Dependencies
-├── tsconfig.json         TypeScript config
-├── eslint.config.js      ESLint rules
-├── .gitignore
-├── README.md
+* **Journey Page** → Interactive map of levels (locked, unlocked, completed).
+* **Dashboard Page** → Overview of your relationship journey, showing progress, past entries, and upcoming tasks.
 
 
 
-🚀 Getting Started
+## 🛠️ Tech Stack
 
-1. Clone the Repository
-
-
-git clone https://github.com/your-username/eterna.git
-cd eterna
-
-
-2. Install Dependencies
+* **Frontend**: React Native (Expo)
+* **Database**: Firebase Firestore
+* **Storage**: Cloudinary (media uploads)
+* **Auth**: Firebase Authentication
 
 
+
+## ⚡ Setup Instructions
+
+### 1. Clone Repo
+
+```bash
+git clone https://github.com/your-username/eternal.git
+cd eternal
+```
+
+### 2. Install Dependencies
+
+```bash
 npm install
+```
 
+### 3. Firebase Setup
 
-or
+* Create a Firebase project.
+* Enable **Authentication** and **Firestore**.
+* Add your Firebase config to the project (e.g. `firebaseConfig.js`).
 
+### 4. Cloudinary Setup
 
-yarn install
+* Create a free [Cloudinary](https://cloudinary.com/) account.
+* Note your **Cloud Name** and create an **Upload Preset** (unsigned).
+* Add these to your environment:
 
+```env
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_UPLOAD_PRESET=your_upload_preset
+```
 
-3. Firebase Setup
+### 5. Run App
 
-* Create a project in the Firebase Console
-* Enable Authentication (Email/Password) and Firestore Database
-* Replace the values in firebase.js with your config:
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBZLArrWlZxP8DgxgRrr2kHs3OhQ0rSaj4",
-  authDomain: "eterna-123.firebaseapp.com",
-  projectId: "eterna-123",
-  storageBucket: "eterna-123.firebasestorage.app",
-  messagingSenderId: "106974360179",
-  appId: "1:106974360179:web:460599317ff9c2b36eb006",
-  measurementId: "G-2SWYV26FGP"
-}; 
-4. Cloudinary Setup
-
-
-
-5. Start the App
-
-
+```bash
 npx expo start
+```
 
 
-* Press a to open on Android
-* Press i for iOS (Mac only)
-* Or scan the QR code with Expo Go
+## 📌 Next Steps
+
+* Polish the **Journey Page UI** (animated, interactive).
+* Build the **Dashboard Page** for better tracking.
+* Add notifications to remind partners about pending tasks.
+* Support video entries.
 
 
-✅ How It Works
 
-1. Sign up or log in
-2. Create or join a room using a unique code
-3. Access the Dashboard to see activity
-4. Explore the Journey to track progress
-5. Create Pebbles (text, image, or audio) with unlock dates
+PRs and feedback are welcome! If you have ideas for improving the experience, open an issue or submit a pull request.
 
 
-🔮 Future Plans
-
-* Pebble Notifications – alerts when pebbles unlock
-* AI Suggestions – for smarter pebble content
-* Themes – customizable UI for journeys and rooms
-* Gamification – achievements, badges, and streaks
-* Offline Mode – create offline, sync later
+Want me to add a **“Screenshots & Demo”** section at the top (with placeholders for images/gifs), so once your Journey + Dashboard UI is done, you can just paste them in? That will instantly give your repo a "wow factor" when someone opens it.
