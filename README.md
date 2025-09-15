@@ -83,6 +83,3 @@ npx expo start
 
 
 PRs and feedback are welcome! If you have ideas for improving the experience, open an issue or submit a pull request.
-
-
-Want me to add a **“Screenshots & Demo”** section at the top (with placeholders for images/gifs), so once your Journey + Dashboard UI is done, you can just paste them in? That will instantly give your repo a "wow factor" when someone opens it.
