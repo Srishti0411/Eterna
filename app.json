@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "70063281-51c9-4665-ac29-7393760d2803"
+      }
+    },
+    "owner": "srish0411",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/70063281-51c9-4665-ac29-7393760d2803"
+    },
+    "android": {},
+    "ios": {}
+  }
+}

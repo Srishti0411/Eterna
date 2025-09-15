@@ -1,63 +1,103 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, Image } from "react-native";
+import { useRouter } from "expo-router";
+import { auth, db } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import Logo from "../assets/logo.png";
 
-export default function Home() {
+export default function Index() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [userExists, setUserExists] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      // Check if user already has a room
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists() && userDoc.data().roomId) {
+        router.replace("/(main)/dashboard"); // go to dashboard
+      } else {
+        setUserExists(true); // logged in but no room
+      }
+
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#d28eff" />
+      </View>
+    );
+  }
+
+  // Case 1: Not logged in OR logged in but no room → show HomePage
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>ETERNA</Text>
-      <Text style={styles.tagline}>where love leaves footprints</Text>
+      <Image source={Logo} style={styles.logoImage} resizeMode="contain" />
 
-      <View style={styles.buttons}>
-        <Link href="/auth/signIn" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Sign In</Text>
-          </TouchableOpacity>
-        </Link>
 
-        <Link href="/auth/signUp" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </TouchableOpacity>
-        </Link>
-      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/(auth)/signIn")}
+      >
+        <Text style={styles.buttonText}>Sign In</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: "#e3c6ff" }]}
+        onPress={() => router.push("/(auth)/signUp")}
+      >
+        <Text style={[styles.buttonText, { color: "#4a155d" }]}>Sign Up</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  logoImage: {
+    width: 300,
+    height: 300,
+    marginBottom: 20,
+  },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f9f0ff",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#1E1B3A", // deep navy
-    alignItems: "center",
     justifyContent: "center",
-    padding: 24,
-  },
-  logo: {
-    color: "#FFFFFF",
-    fontSize: 42,
-    fontWeight: "bold",
-    letterSpacing: 3,
-    marginBottom: 8,
+    alignItems: "center",
+    backgroundColor: "#27273E",
+    paddingHorizontal: 30,
   },
   tagline: {
-    color: "#CFC7F8",
     fontSize: 14,
-    marginBottom: 60,
-    letterSpacing: 1,
-  },
-  buttons: {
-    width: "100%",
-    gap: 16,
+    color: "#cbbbe5",
+    marginBottom: 50,
   },
   button: {
-    backgroundColor: "#F4C3F9", // soft pink
+    width: "100%",
+    paddingVertical: 15,
     borderRadius: 30,
-    paddingVertical: 14,
+    backgroundColor: "#a55eea",
     alignItems: "center",
+    marginTop: 15,
   },
   buttonText: {
-    color: "#1E1B3A",
-    fontSize: 18,
+    color: "#fff",
     fontWeight: "600",
+    fontSize: 16,
   },
 });
